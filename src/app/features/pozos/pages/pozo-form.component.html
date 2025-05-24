@@ -1,0 +1,77 @@
+<div class="container mt-4">
+  <h2 class="text-primary">{{ editando ? 'Editar Pozo' : 'Nuevo Pozo' }}</h2>
+
+  <form [formGroup]="form" (ngSubmit)="guardar()">
+    <div class="row">
+      <div class="col-md-6 mb-3">
+        <label>Nombre</label>
+        <input class="form-control" formControlName="nombre_pozo" required>
+      </div>
+
+      <div class="col-md-6 mb-3">
+        <label>Comunidad</label>
+        <input class="form-control" formControlName="comunidad">
+      </div>
+
+      <div class="col-md-6 mb-3">
+        <label>Domicilio</label>
+        <input class="form-control" formControlName="domicilio">
+      </div>
+
+      <div class="col-md-6 mb-3">
+        <label>Fecha perforación</label>
+        <input type="date" class="form-control" formControlName="fecha_perforacion">
+      </div>
+
+      <div class="col-md-6 mb-3">
+        <label>Profundidad (m)</label>
+        <input type="number" class="form-control" formControlName="profundidad">
+      </div>
+
+
+      <div class="col-md-6 mb-3">
+        <label>Latitud (m)</label>
+        <input type="number" class="form-control" formControlName="latitud">
+      </div>
+      <div class="col-md-6 mb-3">
+        <label>Longitud (m)</label>
+        <input type="number" class="form-control" formControlName="longitud">
+      </div>
+      <div class="col-md-6 mb-3">
+        <label>Altitud (m)</label>
+        <input type="number" class="form-control" formControlName="altitud">
+      </div>
+      
+
+      <div class="col-md-6 mb-3">
+        <label>Diametro del Ademe</label>
+        <input type="number" class="form-control" formControlName="diametro_ademe">
+      </div>
+      <div class="col-md-6 mb-3">
+        <label>Longitud del Ademe Ciego</label>
+        <input type="number" class="form-control" formControlName="longitud_ademe_ciego">
+      </div>
+      <div class="col-md-6 mb-3">
+        <label>Longitud del Ademe Ranurado</label>
+        <input type="number" class="form-control" formControlName="longitud_ademe_ranurado">
+      </div>
+
+      <div class="col-md-6 mb-3">
+        <label>Tren de descarga</label>
+        <input type="text" class="form-control" formControlName="tren_descarga">
+      </div>
+
+      <div class="col-md-6 mb-3">
+        <label>Concesion</label>
+        <input type="text" class="form-control" formControlName="concesion">
+      </div>
+
+      <!-- Agrega más campos si deseas -->
+    </div>
+
+    <div class="mt-3 d-flex gap-2">
+      <button class="btn btn-success" type="submit">Guardar</button>
+      <a routerLink="/pozos" class="btn btn-secondary">Cancelar</a>
+    </div>
+  </form>
+</div>

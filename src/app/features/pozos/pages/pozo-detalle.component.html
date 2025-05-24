@@ -1,0 +1,64 @@
+<div class="container mt-4" *ngIf="!cargando">
+  <h2 class="text-primary">Detalle del Pozo</h2>
+
+
+
+
+  <ul class="list-group my-3">
+    <li class="list-group-item"><strong>Nombre:</strong> {{ pozo.nombre_pozo }}</li>
+    <li class="list-group-item"><strong>Comunidad:</strong> {{ pozo.comunidad }}</li>
+    <li class="list-group-item"><strong>Fecha perforación:</strong> {{ pozo.fecha_perforacion }}</li>
+    <li class="list-group-item"><strong>Profundidad:</strong> {{ pozo.profundidad }} m</li>
+    <li class="list-group-item"><strong>Concesión:</strong> {{ pozo.concesion }}</li>
+    <li class="list-group-item"><strong>Diametro del Ademe:</strong> {{ pozo.diametro_ademe }}</li>
+    <li class="list-group-item"><strong>Latitud:</strong> {{ pozo.latitud }}</li>
+    <li class="list-group-item"><strong>Longitud:</strong> {{ pozo.longitud }}</li>
+    <li class="list-group-item"><strong>Altitud:</strong> {{ pozo.altitud }} <strong>metros sobre el nivel del mar</strong> </li>
+    <li class="list-group-item"><strong>Ademe ciego:</strong> {{ pozo.longitud_ademe_ciego }}</li>
+    <li class="list-group-item"><strong>Ademe Ranurado:</strong> {{ pozo.longitud_ademe_ranurado }}</li>
+    <li class="list-group-item"><strong>Fecha de Perforación:</strong> {{ pozo.fecha_perforacion }}</li>
+    <li class="list-group-item"><strong>Gasto Actual: </strong> ESTE DATO SE VA A CONSULTAR DE MEDICIONES</li>
+    <!-- Puedes mostrar más campos si lo deseas -->
+  </ul>
+  
+
+  <div class="d-flex gap-2">
+    <a [routerLink]="['/pozos', pozo.id, 'editar']" class="btn btn-warning">Editar</a>
+    <button class="btn btn-danger" (click)="eliminarPozo()">Eliminar</button>
+    
+  </div>
+
+  <hr>
+
+    <!-- MOTOR -->
+<div class="card my-3">
+  <div class="card-header d-flex justify-content-between align-items-center">
+    <span>Motor</span>
+    <button class="btn btn-sm btn-link" (click)="mostrarMotor = !mostrarMotor">
+      {{ mostrarMotor ? 'Ocultar' : 'Mostrar' }}
+    </button>
+  </div>
+  <div class="card-body" *ngIf="mostrarMotor">
+    <app-motor [pozoId]="pozo.id"></app-motor>
+  </div>
+</div>
+
+<!-- Sección plegable -->
+<div class="card my-3">
+  <div class="card-header d-flex justify-content-between align-items-center">
+    <span>Transformador</span>
+    <button class="btn btn-sm btn-link" (click)="mostrarTransformador = !mostrarTransformador">
+      {{ mostrarTransformador ? 'Ocultar' : 'Mostrar' }}
+    </button>
+  </div>
+  <div class="card-body" *ngIf="mostrarTransformador">
+    <app-transformador [pozoId]="pozo.id"></app-transformador>
+  </div>
+</div>
+
+
+
+
+
+<a routerLink="/pozos" class="btn btn-secondary">Regresar</a>
+</div>

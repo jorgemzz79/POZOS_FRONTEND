@@ -1,0 +1,74 @@
+<div class="mt-4">
+  <h5 class="text-primary">Motor</h5>
+
+  <!-- Mostrar motor existente -->
+  <div *ngIf="!editando && motor">
+    <ul class="list-group">
+      <li class="list-group-item"><strong>Motor:</strong> {{ motor.motor }}</li>
+      <li class="list-group-item"><strong>Velocidad:</strong> {{ motor.velocidad }}</li>
+      <li class="list-group-item"><strong>Voltaje:</strong> {{ motor.voltaje }}</li>
+      <li class="list-group-item"><strong>Corriente:</strong> {{ motor.corriente }}</li>
+      <li class="list-group-item"><strong>Marca:</strong> {{ motor.marca }}</li>
+      <li class="list-group-item"><strong>Modelo:</strong> {{ motor.modelo }}</li>
+      <li class="list-group-item"><strong>Tipo:</strong> {{ motor.tipo }}</li>
+      <li class="list-group-item"><strong>Diámetro descarga:</strong> {{ motor.diametro_descarga }}</li>
+      <li class="list-group-item"><strong>Estado:</strong> {{ motor.estado }}</li>
+      <li class="list-group-item"><strong>Descripción:</strong> {{ motor.descripcion }}</li>
+    </ul>
+
+    <div class="mt-2 d-flex gap-2">
+      <button class="btn btn-warning" (click)="editar()">Editar</button>
+      <button class="btn btn-danger" (click)="eliminar()">Eliminar</button>
+    </div>
+  </div>
+
+  <!-- Sin motor registrado -->
+  <div *ngIf="!editando && !motor">
+    <p class="text-muted">No hay información de motor registrada.</p>
+    <button class="btn btn-success" (click)="crear()">Agregar motor</button>
+  </div>
+
+  <!-- Formulario -->
+  <form *ngIf="editando" (ngSubmit)="guardar()" class="mt-3">
+    <div class="row g-3">
+      <div class="col-md-6">
+        <input type="text" class="form-control" placeholder="Motor" [(ngModel)]="formData.motor" name="motor" required>
+      </div>
+      <div class="col-md-6">
+        <input type="text" class="form-control" placeholder="Velocidad" [(ngModel)]="formData.velocidad" name="velocidad">
+      </div>
+      <div class="col-md-6">
+        <input type="text" class="form-control" placeholder="Voltaje" [(ngModel)]="formData.voltaje" name="voltaje">
+      </div>
+      <div class="col-md-6">
+        <input type="text" class="form-control" placeholder="Corriente" [(ngModel)]="formData.corriente" name="corriente">
+      </div>
+      <div class="col-md-6">
+        <input type="text" class="form-control" placeholder="Marca" [(ngModel)]="formData.marca" name="marca">
+      </div>
+      <div class="col-md-6">
+        <input type="text" class="form-control" placeholder="Modelo" [(ngModel)]="formData.modelo" name="modelo">
+      </div>
+      <div class="col-md-6">
+        <input type="text" class="form-control" placeholder="Tipo" [(ngModel)]="formData.tipo" name="tipo">
+      </div>
+      <div class="col-md-6">
+        <input type="text" class="form-control" placeholder="Diámetro descarga" [(ngModel)]="formData.diametro_descarga" name="diametro_descarga">
+      </div>
+      <div class="col-md-6">
+        <select class="form-select" [(ngModel)]="formData.estado" name="estado">
+          <option value="activo">Activo</option>
+          <option value="inactivo">Inactivo</option>
+        </select>
+      </div>
+      <div class="col-md-12">
+        <textarea class="form-control" placeholder="Descripción" [(ngModel)]="formData.descripcion" name="descripcion"></textarea>
+      </div>
+    </div>
+
+    <div class="mt-3 d-flex gap-2">
+      <button class="btn btn-primary" type="submit">Guardar</button>
+      <button class="btn btn-secondary" type="button" (click)="cancelar()">Cancelar</button>
+    </div>
+  </form>
+</div>

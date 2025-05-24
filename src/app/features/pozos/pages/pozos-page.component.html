@@ -1,0 +1,29 @@
+<div class="container mt-4">
+  <h1 class="text-primary">Listado de Pozos</h1>
+<a routerLink="/pozos/nuevo" class="btn btn-success mb-3">+ Nuevo Pozo</a>
+
+  <table class="table table-bordered table-hover mt-3">
+    <thead class="table-light">
+      <tr>
+        <th>Nombre</th>
+        <th>Comunidad</th>
+        <th>Fecha Perforación</th>
+        <th>Profundidad</th>
+        <th>Concesión</th>
+        <th>Opciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let pozo of pozos">
+        <td>{{ pozo.nombre_pozo }}</td>
+        <td>{{ pozo.comunidad }}</td>
+        <td>{{ pozo.fecha_perforacion }}</td>
+        <td>{{ pozo.profundidad }} m</td>
+        <td>{{ pozo.concesion }}</td>
+        <td>
+        <a [routerLink]="['/pozos', pozo.id]" class="btn btn-sm btn-primary me-1">Ver</a>
+      </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

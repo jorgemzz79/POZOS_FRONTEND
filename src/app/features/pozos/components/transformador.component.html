@@ -1,0 +1,67 @@
+<div class="mt-4">
+  <h5 class="text-primary">Transformador</h5>
+
+  <!-- Muestra datos si existe -->
+  <div *ngIf="!editando && transformador">
+    <ul class="list-group">
+      <li class="list-group-item"><strong>Ubicación:</strong> {{ transformador.ubicacion }}</li>
+      <li class="list-group-item"><strong>KVA:</strong> {{ transformador.kva }}</li>
+      <li class="list-group-item"><strong>Voltaje primario:</strong> {{ transformador.voltage_primario }}</li>
+      <li class="list-group-item"><strong>Voltaje secundario:</strong> {{ transformador.voltage_secundario }}</li>
+      <li class="list-group-item"><strong>Marca:</strong> {{ transformador.marca }}</li>
+      <li class="list-group-item"><strong>Serie:</strong> {{ transformador.serie }}</li>
+      <li class="list-group-item"><strong>Bomba:</strong> {{ transformador.bomba }}</li>
+      <li class="list-group-item"><strong>Modelo:</strong> {{ transformador.modelo }}</li>
+      <li class="list-group-item"><strong>Serie bomba:</strong> {{ transformador.serie_bomba }}</li>
+    </ul>
+
+    <div class="mt-2 d-flex gap-2">
+      <button class="btn btn-warning" (click)="editar()">Editar</button>
+      <button class="btn btn-danger" (click)="eliminar()">Eliminar</button>
+    </div>
+  </div>
+
+  <!-- Si no hay transformador -->
+  <div *ngIf="!editando && !transformador">
+    <p class="text-muted">No hay transformador registrado.</p>
+    <button class="btn btn-success" (click)="crear()">Agregar transformador</button>
+  </div>
+
+  <!-- Formulario -->
+  <form *ngIf="editando" (ngSubmit)="guardar()" class="mt-3">
+    <div class="row g-3">
+      <div class="col-md-6">
+        <input type="text" class="form-control" placeholder="Ubicación" [(ngModel)]="formData.ubicacion" name="ubicacion" required>
+      </div>
+      <div class="col-md-6">
+        <input type="number" class="form-control" placeholder="KVA" [(ngModel)]="formData.kva" name="kva">
+      </div>
+      <div class="col-md-6">
+        <input type="number" class="form-control" placeholder="Voltaje primario" [(ngModel)]="formData.voltage_primario" name="voltage_primario">
+      </div>
+      <div class="col-md-6">
+        <input type="text" class="form-control" placeholder="Voltaje secundario" [(ngModel)]="formData.voltage_secundario" name="voltage_secundario">
+      </div>
+      <div class="col-md-6">
+        <input type="text" class="form-control" placeholder="Marca" [(ngModel)]="formData.marca" name="marca">
+      </div>
+      <div class="col-md-6">
+        <input type="text" class="form-control" placeholder="Serie" [(ngModel)]="formData.serie" name="serie">
+      </div>
+      <div class="col-md-6">
+        <input type="text" class="form-control" placeholder="Bomba" [(ngModel)]="formData.bomba" name="bomba">
+      </div>
+      <div class="col-md-6">
+        <input type="text" class="form-control" placeholder="Modelo" [(ngModel)]="formData.modelo" name="modelo">
+      </div>
+      <div class="col-md-6">
+        <input type="text" class="form-control" placeholder="Serie bomba" [(ngModel)]="formData.serie_bomba" name="serie_bomba">
+      </div>
+    </div>
+
+    <div class="mt-3 d-flex gap-2">
+      <button class="btn btn-primary" type="submit">Guardar</button>
+      <button class="btn btn-secondary" type="button" (click)="cancelar()">Cancelar</button>
+    </div>
+  </form>
+</div>
