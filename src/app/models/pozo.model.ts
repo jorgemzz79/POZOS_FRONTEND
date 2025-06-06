@@ -9,9 +9,9 @@ export interface Pozo {
   altitud: number;
   profundidad: number;
   gasto_actual_id: number;
-  diametro_ademe: string;
-  longitud_ademe_ciego: string;
-  longitud_ademe_ranurado: string;
+  diametro_ademe: number;
+  longitud_ademe_ciego: number;
+  longitud_ademe_ranurado: number;
   tren_descarga: string;
   concesion: string;
 }

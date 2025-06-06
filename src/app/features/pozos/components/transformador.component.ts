@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { TransformadorService } from '../../../services/transformador.service';
@@ -11,30 +11,36 @@ import { Transformador } from '../../../models/transformador.model';
   styleUrls: ['./transformador.component.scss'],
   imports: [CommonModule, FormsModule]
 })
-export class TransformadorComponent implements OnInit {
+export class TransformadorComponent implements OnChanges {
   @Input() pozoId!: number;
-  transformador: Transformador | null = null;
+  transformadores: Transformador[] = [];
   editando = false;
   formData: Transformador = {} as Transformador;
+  editIndex: number | null = null;
 
   constructor(private transformadorService: TransformadorService) {}
 
-  ngOnInit(): void {
-    this.transformadorService.getTransformadorPorPozo(this.pozoId).subscribe({
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['pozoId'] && this.pozoId > 0) {
+      this.cargarTransformadores();
+    }
+  }
+
+  cargarTransformadores(): void {
+    this.transformadorService.getTransformadoresPorPozo(this.pozoId).subscribe({
       next: (data) => {
-        this.transformador = data[0] || null;
+        this.transformadores = data;
       },
       error: () => {
-        this.transformador = null;
+        this.transformadores = [];
       }
     });
   }
 
-  editar(): void {
-    if (this.transformador) {
-      this.formData = { ...this.transformador };
-      this.editando = true;
-    }
+  editar(index: number): void {
+    this.editIndex = index;
+    this.formData = { ...this.transformadores[index] };
+    this.editando = true;
   }
 
   crear(): void {
@@ -50,18 +56,22 @@ export class TransformadorComponent implements OnInit {
       serie_bomba: '',
       pozo_id: this.pozoId
     };
+    this.editIndex = null;
     this.editando = true;
   }
 
   guardar(): void {
-    if (this.transformador) {
-      this.transformadorService.actualizarTransformador(this.transformador.id!, this.formData).subscribe((resp) => {
-        this.transformador = resp;
+    if (this.editIndex !== null) {
+      // Actualizar
+      const id = this.transformadores[this.editIndex].id!;
+      this.transformadorService.actualizarTransformador(id, this.formData).subscribe((resp) => {
+        this.transformadores[this.editIndex!] = resp;
         this.editando = false;
       });
     } else {
+      // Crear nuevo
       this.transformadorService.crearTransformador(this.formData).subscribe((nuevo) => {
-        this.transformador = nuevo;
+        this.transformadores.push(nuevo);
         this.editando = false;
       });
     }
@@ -71,10 +81,11 @@ export class TransformadorComponent implements OnInit {
     this.editando = false;
   }
 
-  eliminar(): void {
-    if (this.transformador && confirm('¿Eliminar este transformador?')) {
-      this.transformadorService.eliminarTransformador(this.transformador.id!).subscribe(() => {
-        this.transformador = null;
+  eliminar(index: number): void {
+    const transformador = this.transformadores[index];
+    if (confirm('¿Eliminar este transformador?')) {
+      this.transformadorService.eliminarTransformador(transformador.id!).subscribe(() => {
+        this.transformadores.splice(index, 1);
       });
     }
   }

@@ -1,0 +1,32 @@
+<div *ngIf="cargando">Cargando archivos...</div>
+
+<div *ngIf="!cargando && archivos.length === 0" class="text-muted">
+  No hay archivos registrados para este pozo.
+</div>
+
+<table class="table table-striped table-hover" *ngIf="archivos.length > 0">
+  <thead class="table-light">
+    <tr>
+      <th>Nombre</th>
+      <th>Descripción</th>
+      <th>Categoría</th>
+      <th>Tipo</th>
+      <th>Ver</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let archivo of archivos">
+      <td>{{ archivo.nombre_archivo }}</td>
+      <td>{{ archivo.descripcion }}</td>
+      <td>{{ archivo.categoria }}</td>
+      <td>{{ archivo.tipo_archivo }} {{ archivo.tipo_archivo | archivoExt }}</td>
+      <td>
+        <button class="btn btn-sm btn-outline-primary" (click)="verArchivo(archivo.ruta_archivo)">
+          Ver
+        </button>
+        <app-preview-modal #modalPreview></app-preview-modal>
+
+      </td>
+    </tr>
+  </tbody>
+</table>

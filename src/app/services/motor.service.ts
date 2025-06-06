@@ -11,12 +11,14 @@ export class MotorService {
 
   constructor(private http: HttpClient) {}
 
+  // 🔹 Obtener motor por su ID (si ya lo conoces)
   getMotorPorId(motorId: number): Observable<Motor> {
     return this.http.get<Motor>(`${this.baseUrl}${motorId}`);
   }
 
-  getMotorPorPozo(pozoId: number): Observable<Motor[]> {
-    return this.http.get<Motor[]>(this.baseUrl + `?pozo_id=${pozoId}`);
+  // ✅ Obtener motor por pozo_id (el nuevo endpoint correcto)
+  getMotorPorPozo(pozoId: number): Observable<Motor> {
+    return this.http.get<Motor>(`${this.baseUrl}pozo/${pozoId}`);
   }
 
   crearMotor(motor: Motor): Observable<Motor> {
@@ -30,4 +32,11 @@ export class MotorService {
   eliminarMotor(id: number): Observable<void> {
     return this.http.delete<void>(`${this.baseUrl}${id}`);
   }
+
+  // 🔹 Nuevo método para obtener todos los motores de un pozo
+getMotoresPorPozo(pozoId: number): Observable<Motor[]> {
+  return this.http.get<Motor[]>(`${this.baseUrl}pozo/${pozoId}`);
+}
+
+
 }

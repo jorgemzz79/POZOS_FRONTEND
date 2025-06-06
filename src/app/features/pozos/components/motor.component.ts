@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { MotorService } from '../../../services/motor.service';
@@ -11,30 +11,36 @@ import { Motor } from '../../../models/motor.model';
   styleUrls: ['./motor.component.scss'],
   imports: [CommonModule, FormsModule]
 })
-export class MotorComponent implements OnInit {
+export class MotorComponent implements OnChanges {
   @Input() pozoId!: number;
-  motor: Motor | null = null;
+  motores: Motor[] = [];
   editando = false;
   formData: Motor = {} as Motor;
 
   constructor(private motorService: MotorService) {}
 
-  ngOnInit(): void {
-    this.motorService.getMotorPorPozo(this.pozoId).subscribe({
-      next: (data) => {
-        this.motor = data[0] || null;
-      },
-      error: () => {
-        this.motor = null;
-      }
-    });
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['pozoId'] && this.pozoId > 0) {
+      this.cargarMotores();
+    }
   }
 
-  editar(): void {
-    if (this.motor) {
-      this.formData = { ...this.motor };
-      this.editando = true;
+  cargarMotores(): void {
+  console.log('Buscando motores del pozo', this.pozoId);  // 👈 VERIFICA ESTO
+  this.motorService.getMotoresPorPozo(this.pozoId).subscribe({
+    next: (data) => {
+      console.log('Motores recibidos:', data);  // 👈 VERIFICA SI LLEGA ALGO
+      this.motores = data;
+    },
+    error: (error) => {
+      console.error('Error al cargar motores', error);
     }
+  });
+}
+
+  editar(motor: Motor): void {
+    this.formData = { ...motor };
+    this.editando = true;
   }
 
   crear(): void {
@@ -56,14 +62,14 @@ export class MotorComponent implements OnInit {
   }
 
   guardar(): void {
-    if (this.motor) {
-      this.motorService.actualizarMotor(this.motor.id!, this.formData).subscribe((resp) => {
-        this.motor = resp;
+    if (this.formData.id) {
+      this.motorService.actualizarMotor(this.formData.id, this.formData).subscribe((resp) => {
+        this.cargarMotores();
         this.editando = false;
       });
     } else {
       this.motorService.crearMotor(this.formData).subscribe((nuevo) => {
-        this.motor = nuevo;
+        this.cargarMotores();
         this.editando = false;
       });
     }
@@ -73,10 +79,10 @@ export class MotorComponent implements OnInit {
     this.editando = false;
   }
 
-  eliminar(): void {
-    if (this.motor && confirm('¿Estás seguro de eliminar este motor?')) {
-      this.motorService.eliminarMotor(this.motor.id!).subscribe(() => {
-        this.motor = null;
+  eliminar(motorId: number): void {
+    if (confirm('¿Estás seguro de eliminar este motor?')) {
+      this.motorService.eliminarMotor(motorId).subscribe(() => {
+        this.cargarMotores();
       });
     }
   }

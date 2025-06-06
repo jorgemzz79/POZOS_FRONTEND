@@ -5,21 +5,26 @@ import { PozoService } from '../../../services/pozo.service';
 import { Pozo } from '../../../models/pozo.model';
 import { MotorComponent } from '../components/motor.component';
 import { TransformadorComponent } from '../components/transformador.component';
-
-
+import { ArchivoComponent } from '../components/archivo.component';
+import { ListaArchivosComponent } from '../components/lista-archivos.component';
+import { MedicionComponent } from '../components/medicion.component';
+import { GraficasMedicionComponent } from '../../../features/pozos/components/graficas-medicion.component';
 @Component({
   standalone: true,
   selector: 'app-pozo-detalle',
   templateUrl: './pozo-detalle.component.html',
   styleUrls: ['./pozo-detalle.component.scss'],
-  imports: [CommonModule, RouterModule, MotorComponent, TransformadorComponent ],
-
+  imports: [CommonModule, RouterModule, MotorComponent, TransformadorComponent, ArchivoComponent,ListaArchivosComponent, MedicionComponent, GraficasMedicionComponent],
 })
 export class PozoDetalleComponent implements OnInit {
   pozo!: Pozo;
   cargando = true;
   mostrarMotor = false;  // o true si quieres que se abra por defecto
   mostrarTransformador = false;
+  mostrarInfoGeneral = false; // o false si quieres que inicie plegado
+  mostrarArchivos = false;
+  mostrarMediciones = false;
+
 
   constructor(
     private route: ActivatedRoute,
@@ -51,4 +56,5 @@ export class PozoDetalleComponent implements OnInit {
       });
     }
   }
+
 }

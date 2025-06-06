@@ -1,29 +1,47 @@
 <div class="mt-4">
-  <h5 class="text-primary">Transformador</h5>
+  <h5 class="text-primary">Transformadores</h5>
 
-  <!-- Muestra datos si existe -->
-  <div *ngIf="!editando && transformador">
-    <ul class="list-group">
-      <li class="list-group-item"><strong>Ubicación:</strong> {{ transformador.ubicacion }}</li>
-      <li class="list-group-item"><strong>KVA:</strong> {{ transformador.kva }}</li>
-      <li class="list-group-item"><strong>Voltaje primario:</strong> {{ transformador.voltage_primario }}</li>
-      <li class="list-group-item"><strong>Voltaje secundario:</strong> {{ transformador.voltage_secundario }}</li>
-      <li class="list-group-item"><strong>Marca:</strong> {{ transformador.marca }}</li>
-      <li class="list-group-item"><strong>Serie:</strong> {{ transformador.serie }}</li>
-      <li class="list-group-item"><strong>Bomba:</strong> {{ transformador.bomba }}</li>
-      <li class="list-group-item"><strong>Modelo:</strong> {{ transformador.modelo }}</li>
-      <li class="list-group-item"><strong>Serie bomba:</strong> {{ transformador.serie_bomba }}</li>
-    </ul>
-
-    <div class="mt-2 d-flex gap-2">
-      <button class="btn btn-warning" (click)="editar()">Editar</button>
-      <button class="btn btn-danger" (click)="eliminar()">Eliminar</button>
-    </div>
+  <!-- Tabla de transformadores existentes -->
+  <div *ngIf="!editando && transformadores.length > 0">
+    <table class="table table-bordered table-striped table-hover">
+      <thead class="table-primary">
+        <tr>
+          <th>Ubicación</th>
+          <th>KVA</th>
+          <th>V. Primario</th>
+          <th>V. Secundario</th>
+          <th>Marca</th>
+          <th>Serie</th>
+          <th>Bomba</th>
+          <th>Modelo</th>
+          <th>Serie Bomba</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let t of transformadores; let i = index">
+          <td>{{ t.ubicacion }}</td>
+          <td>{{ t.kva }}</td>
+          <td>{{ t.voltage_primario }}</td>
+          <td>{{ t.voltage_secundario }}</td>
+          <td>{{ t.marca }}</td>
+          <td>{{ t.serie }}</td>
+          <td>{{ t.bomba }}</td>
+          <td>{{ t.modelo }}</td>
+          <td>{{ t.serie_bomba }}</td>
+          <td>
+            <button class="btn btn-warning btn-sm" (click)="editar(i)">Editar</button>
+            <button class="btn btn-danger btn-sm" (click)="eliminar(i)">Eliminar</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <button class="btn btn-success" (click)="crear()">Agregar transformador</button>
   </div>
 
-  <!-- Si no hay transformador -->
-  <div *ngIf="!editando && !transformador">
-    <p class="text-muted">No hay transformador registrado.</p>
+  <!-- Si no hay transformadores -->
+  <div *ngIf="!editando && transformadores.length === 0">
+    <p class="text-muted">No hay transformadores registrados.</p>
     <button class="btn btn-success" (click)="crear()">Agregar transformador</button>
   </div>
 
@@ -40,7 +58,7 @@
         <input type="number" class="form-control" placeholder="Voltaje primario" [(ngModel)]="formData.voltage_primario" name="voltage_primario">
       </div>
       <div class="col-md-6">
-        <input type="text" class="form-control" placeholder="Voltaje secundario" [(ngModel)]="formData.voltage_secundario" name="voltage_secundario">
+        <input type="text" class="form-control" placeholder="Voltaje secundario" [(ngModel)]="formData.voltage_secundario" name="voltaje_secundario">
       </div>
       <div class="col-md-6">
         <input type="text" class="form-control" placeholder="Marca" [(ngModel)]="formData.marca" name="marca">

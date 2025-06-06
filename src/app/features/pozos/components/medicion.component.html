@@ -1,0 +1,69 @@
+<div class="container mt-4">
+  <h2 class="text-center mb-4">Registro de Mediciones</h2>
+
+  <!-- FORMULARIO -->
+  <form (ngSubmit)="guardarMedicion()" #medicionForm="ngForm" class="card p-3 shadow mb-4">
+    <div class="row">
+      <div class="col-md-6 mb-3">
+        <label for="tipo_medicion" class="form-label">Tipo de medición</label>
+        <select class="form-select" id="tipo_medicion" [(ngModel)]="medicion.tipo_medicion" name="tipo_medicion" required>
+          <option value="" disabled selected>Seleccione un tipo</option>
+          <option value="caudal">Caudal</option>
+          <option value="presion">Presión</option>
+          <option value="nivel">Nivel</option>
+        </select>
+      </div>
+
+      <div class="col-md-6 mb-3">
+        <label for="valor" class="form-label">Valor</label>
+        <input type="number" class="form-control" id="valor" [(ngModel)]="medicion.valor" name="valor" required>
+      </div>
+
+      <div class="col-md-6 mb-3">
+        <label for="unidad_id" class="form-label">Unidad</label>
+        <select class="form-select" id="unidad_id" [(ngModel)]="medicion.unidad_id" name="unidad_id" required>
+          <option value="" disabled selected>Seleccione unidad</option>
+          <option *ngFor="let unidad of unidades" [value]="unidad.id">
+            {{ unidad.nombre }} ({{ unidad.abreviatura }})
+          </option>
+        </select>
+      </div>
+
+      <div class="col-md-6 mb-3">
+        <label for="fecha" class="form-label">Fecha</label>
+        <input type="datetime-local" class="form-control" id="fecha" [(ngModel)]="medicion.fecha" name="fecha" required>
+      </div>
+    </div>
+
+    <button class="btn btn-success me-2" type="submit" [disabled]="medicionForm.invalid">
+      {{ medicion.id ? 'Actualizar' : 'Guardar' }} medición
+    </button>
+    <button *ngIf="medicion.id" type="button" class="btn btn-secondary" (click)="cancelarEdicion()">Cancelar</button>
+  </form>
+
+  <!-- LISTADO -->
+  <!-- LISTADO -->
+<div class="card shadow">
+  <div class="card-header bg-secondary text-white">
+    <strong>Mediciones registradas</strong>
+  </div>
+  <ul class="list-group list-group-flush">
+    <li class="list-group-item d-flex justify-content-between align-items-center" *ngFor="let m of mediciones">
+      <div>
+        <strong>{{ m.tipo_medicion }}:</strong> {{ m.valor }} {{ getAbreviatura(m.unidad_id) }}
+        <br>
+        <small class="text-muted">{{ m.fecha | date: 'short' }}</small>
+      </div>
+      <div class="d-flex gap-2">
+        <button class="btn btn-sm btn-primary" (click)="editarMedicion(m)" title="Editar">
+          <i class="bi bi-pencil"></i>
+        </button>
+        <button class="btn btn-sm btn-danger" (click)="eliminarMedicion(m.id!)" title="Eliminar">
+          <i class="bi bi-trash"></i>
+        </button>
+      </div>
+    </li>
+  </ul>
+</div>
+
+</div>

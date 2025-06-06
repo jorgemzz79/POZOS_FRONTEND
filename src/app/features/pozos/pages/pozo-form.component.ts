@@ -53,20 +53,23 @@ export class PozoFormComponent implements OnInit {
   }
 
   guardar(): void {
-    if (this.form.invalid) return;
+  if (this.form.invalid) return;
 
-    const datos = this.form.value as Pozo;
+  const datos = this.form.value;
 
-    if (this.editando && this.pozoId !== null) {
-      this.pozoService.actualizarPozo(this.pozoId, datos).subscribe(() => {
-        alert('Pozo actualizado');
-        this.router.navigate(['/pozos']);
-      });
-    } else {
-      this.pozoService.crearPozo(datos).subscribe(() => {
-        alert('Pozo creado');
-        this.router.navigate(['/pozos']);
-      });
-    }
+  if (this.editando && this.pozoId !== null) {
+    this.pozoService.actualizarPozo(this.pozoId, datos).subscribe(() => {
+      alert('Pozo actualizado');
+      this.router.navigate(['/pozos']);
+    });
+  } else {
+    console.log(this.form.value);
+    this.pozoService.crearPozo(datos).subscribe((nuevo) => {
+      alert('Pozo creado');
+      this.router.navigate(['/pozos', nuevo.id]);  // 👈 redirige al detalle
+    });
   }
+}
+
+
 }

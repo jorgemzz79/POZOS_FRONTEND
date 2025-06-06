@@ -1,64 +1,105 @@
-<div class="container mt-4" *ngIf="!cargando">
-  <h2 class="text-primary">Detalle del Pozo</h2>
+<div class="container mt-4" *ngIf="!cargando && pozo">
+  <div class="card shadow-lg p-4 border-0">
 
+    <h2 class="text-center fw-bold mb-4">
+      <span style="color: #125FA8;">DETALLE DEL POZO</span>
+    </h2>
 
-
-
-  <ul class="list-group my-3">
-    <li class="list-group-item"><strong>Nombre:</strong> {{ pozo.nombre_pozo }}</li>
-    <li class="list-group-item"><strong>Comunidad:</strong> {{ pozo.comunidad }}</li>
-    <li class="list-group-item"><strong>Fecha perforación:</strong> {{ pozo.fecha_perforacion }}</li>
-    <li class="list-group-item"><strong>Profundidad:</strong> {{ pozo.profundidad }} m</li>
-    <li class="list-group-item"><strong>Concesión:</strong> {{ pozo.concesion }}</li>
-    <li class="list-group-item"><strong>Diametro del Ademe:</strong> {{ pozo.diametro_ademe }}</li>
-    <li class="list-group-item"><strong>Latitud:</strong> {{ pozo.latitud }}</li>
-    <li class="list-group-item"><strong>Longitud:</strong> {{ pozo.longitud }}</li>
-    <li class="list-group-item"><strong>Altitud:</strong> {{ pozo.altitud }} <strong>metros sobre el nivel del mar</strong> </li>
-    <li class="list-group-item"><strong>Ademe ciego:</strong> {{ pozo.longitud_ademe_ciego }}</li>
-    <li class="list-group-item"><strong>Ademe Ranurado:</strong> {{ pozo.longitud_ademe_ranurado }}</li>
-    <li class="list-group-item"><strong>Fecha de Perforación:</strong> {{ pozo.fecha_perforacion }}</li>
-    <li class="list-group-item"><strong>Gasto Actual: </strong> ESTE DATO SE VA A CONSULTAR DE MEDICIONES</li>
-    <!-- Puedes mostrar más campos si lo deseas -->
-  </ul>
-  
-
-  <div class="d-flex gap-2">
-    <a [routerLink]="['/pozos', pozo.id, 'editar']" class="btn btn-warning">Editar</a>
-    <button class="btn btn-danger" (click)="eliminarPozo()">Eliminar</button>
-    
-  </div>
-
-  <hr>
+    <!-- INFORMACIÓN GENERAL -->
+    <div class="card shadow-sm border-0 mb-4">
+      <div class="card-header d-flex justify-content-between align-items-center" style="background-color: #99a3a7; color: white;">
+        <span><i class="bi bi-info-circle-fill me-2"></i> Información general del pozo</span>
+        <button class="btn btn-sm text-white" style="background-color: #7A57A1;" (click)="mostrarInfoGeneral = !mostrarInfoGeneral">
+          {{ mostrarInfoGeneral ? 'Ocultar' : 'Mostrar' }}
+        </button>
+      </div>
+      <div class="card-body p-0" *ngIf="mostrarInfoGeneral">
+        <ul class="list-group list-group-flush">
+          <li class="list-group-item"><strong>Nombre:</strong> {{ pozo.nombre_pozo }}</li>
+          <li class="list-group-item"><strong>Comunidad:</strong> {{ pozo.comunidad }}</li>
+          <li class="list-group-item"><strong>Fecha perforación:</strong> {{ pozo.fecha_perforacion }}</li>
+          <li class="list-group-item"><strong>Profundidad:</strong> {{ pozo.profundidad }} m</li>
+          <li class="list-group-item"><strong>Concesión:</strong> {{ pozo.concesion }}</li>
+          <li class="list-group-item"><strong>Diámetro del Ademe:</strong> {{ pozo.diametro_ademe }}</li>
+          <li class="list-group-item"><strong>Latitud:</strong> {{ pozo.latitud }}</li>
+          <li class="list-group-item"><strong>Longitud:</strong> {{ pozo.longitud }}</li>
+          <li class="list-group-item"><strong>Altitud:</strong> {{ pozo.altitud }} msnm</li>
+          <li class="list-group-item"><strong>Ademe ciego:</strong> {{ pozo.longitud_ademe_ciego }}</li>
+          <li class="list-group-item"><strong>Ademe ranurado:</strong> {{ pozo.longitud_ademe_ranurado }}</li>
+          <li class="list-group-item"><strong>Gasto actual:</strong> <em>(se consulta desde mediciones)</em></li>
+        </ul>
+        <div class="d-flex gap-2 p-3">
+          <a [routerLink]="['/pozos', pozo.id, 'editar']" class="btn text-white" style="background-color: #125FA8;">
+            <i class="bi bi-pencil-square"></i> Editar
+          </a>
+          <button class="btn btn-danger" (click)="eliminarPozo()">
+            <i class="bi bi-trash-fill"></i> Eliminar
+          </button>
+        </div>
+      </div>
+    </div>
 
     <!-- MOTOR -->
-<div class="card my-3">
-  <div class="card-header d-flex justify-content-between align-items-center">
-    <span>Motor</span>
-    <button class="btn btn-sm btn-link" (click)="mostrarMotor = !mostrarMotor">
-      {{ mostrarMotor ? 'Ocultar' : 'Mostrar' }}
+    <div class="card shadow-sm border-0 mb-4">
+      <div class="card-header d-flex justify-content-between align-items-center" style="background-color: #99a3a7; color: white;">
+        <span><i class="bi bi-gear-fill me-2"></i> Motor</span>
+        <button class="btn btn-sm text-white" style="background-color: #7A57A1;" (click)="mostrarMotor = !mostrarMotor">
+          {{ mostrarMotor ? 'Ocultar' : 'Mostrar' }}
+        </button>
+      </div>
+      <div class="card-body" *ngIf="mostrarMotor && pozo?.id">
+        <app-motor [pozoId]="pozo.id"></app-motor>
+      </div>
+    </div>
+
+    <!-- TRANSFORMADOR -->
+    <div class="card shadow-sm border-0 mb-4">
+      <div class="card-header d-flex justify-content-between align-items-center" style="background-color: #99a3a7; color: white;">
+        <span><i class="bi bi-lightning-fill me-2"></i> Transformador</span>
+        <button class="btn btn-sm text-white" style="background-color: #7A57A1;" (click)="mostrarTransformador = !mostrarTransformador">
+          {{ mostrarTransformador ? 'Ocultar' : 'Mostrar' }}
+        </button>
+      </div>
+      <div class="card-body" *ngIf="mostrarTransformador && pozo?.id">
+        <app-transformador [pozoId]="pozo.id"></app-transformador>
+      </div>
+    </div>
+
+    <!-- ARCHIVOS -->
+    <div class="card shadow-sm border-0 mb-4">
+      <div class="card-header d-flex justify-content-between align-items-center" style="background-color: #99a3a7; color: white;">
+        <span><i class="bi bi-folder-fill me-2"></i> Archivos del pozo</span>
+        <button class="btn btn-sm text-white" style="background-color: #7A57A1;" (click)="mostrarArchivos = !mostrarArchivos">
+          {{ mostrarArchivos ? 'Ocultar' : 'Mostrar' }}
+        </button>
+      </div>
+      <div class="card-body" *ngIf="mostrarArchivos && pozo?.id">
+        <app-archivo [pozoId]="pozo.id"></app-archivo>
+        <app-lista-archivos [pozoId]="pozo.id"></app-lista-archivos>
+      </div>
+    </div>
+
+      <!-- MEDICIONES -->
+<div class="card shadow-sm border-0 mb-4">
+  <div class="card-header d-flex justify-content-between align-items-center" style="background-color: #99a3a7; color: white;">
+    <span><i class="bi bi-clipboard2-pulse-fill me-2"></i> Mediciones</span>
+    <button class="btn btn-sm text-white" style="background-color: #7A57A1;" (click)="mostrarMediciones = !mostrarMediciones">
+      {{ mostrarMediciones ? 'Ocultar' : 'Mostrar' }}
     </button>
   </div>
-  <div class="card-body" *ngIf="mostrarMotor">
-    <app-motor [pozoId]="pozo.id"></app-motor>
+  <div class="card-body" *ngIf="mostrarMediciones && pozo?.id">
+    <app-medicion [pozoId]="pozo.id"></app-medicion>
   </div>
 </div>
 
-<!-- Sección plegable -->
-<div class="card my-3">
-  <div class="card-header d-flex justify-content-between align-items-center">
-    <span>Transformador</span>
-    <button class="btn btn-sm btn-link" (click)="mostrarTransformador = !mostrarTransformador">
-      {{ mostrarTransformador ? 'Ocultar' : 'Mostrar' }}
-    </button>
+<app-graficas-medicion [pozoId]="pozo.id"></app-graficas-medicion>
+
+    <!-- BOTÓN REGRESAR -->
+    <div class="text-end">
+      <a routerLink="/pozos" class="btn text-white mt-3" style="background-color: #125FA8;">
+        <i class="bi bi-arrow-left-circle"></i> Regresar
+      </a>
+    </div>
+
   </div>
-  <div class="card-body" *ngIf="mostrarTransformador">
-    <app-transformador [pozoId]="pozo.id"></app-transformador>
-  </div>
-</div>
-
-
-
-
-
-<a routerLink="/pozos" class="btn btn-secondary">Regresar</a>
 </div>

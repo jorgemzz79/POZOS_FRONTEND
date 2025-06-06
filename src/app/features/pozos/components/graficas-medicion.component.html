@@ -1,0 +1,13 @@
+<div class="card shadow mt-4">
+  <div class="card-header bg-info text-white">
+    <strong>Gráfica de Mediciones</strong>
+  </div>
+  <div class="card-body">
+    <canvas baseChart
+      [data]="lineChartData"
+      [options]="lineChartOptions"
+      [legend]="lineChartLegend"
+      chartType="line">
+    </canvas>
+  </div>
+</div>
