@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Motor } from '../models/motor.model';
 
@@ -7,36 +7,50 @@ import { Motor } from '../models/motor.model';
   providedIn: 'root'
 })
 export class MotorService {
-  private baseUrl = 'http://127.0.0.1:8000/motores/';
+  private baseUrl = 'http://172.16.3.115:8000/motores/';
 
   constructor(private http: HttpClient) {}
 
-  // 🔹 Obtener motor por su ID (si ya lo conoces)
-  getMotorPorId(motorId: number): Observable<Motor> {
-    return this.http.get<Motor>(`${this.baseUrl}${motorId}`);
+  private getAuthHeaders(): HttpHeaders {
+    const token = localStorage.getItem('token');
+    return new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    });
   }
 
-  // ✅ Obtener motor por pozo_id (el nuevo endpoint correcto)
+  getMotorPorId(motorId: number): Observable<Motor> {
+    return this.http.get<Motor>(`${this.baseUrl}${motorId}`, {
+      headers: this.getAuthHeaders()
+    });
+  }
+
   getMotorPorPozo(pozoId: number): Observable<Motor> {
-    return this.http.get<Motor>(`${this.baseUrl}pozo/${pozoId}`);
+    return this.http.get<Motor>(`${this.baseUrl}pozo/${pozoId}`, {
+      headers: this.getAuthHeaders()
+    });
   }
 
   crearMotor(motor: Motor): Observable<Motor> {
-    return this.http.post<Motor>(this.baseUrl, motor);
+    return this.http.post<Motor>(this.baseUrl, motor, {
+      headers: this.getAuthHeaders()
+    });
   }
 
   actualizarMotor(id: number, motor: Motor): Observable<Motor> {
-    return this.http.put<Motor>(`${this.baseUrl}${id}`, motor);
+    return this.http.put<Motor>(`${this.baseUrl}${id}`, motor, {
+      headers: this.getAuthHeaders()
+    });
   }
 
   eliminarMotor(id: number): Observable<void> {
-    return this.http.delete<void>(`${this.baseUrl}${id}`);
+    return this.http.delete<void>(`${this.baseUrl}${id}`, {
+      headers: this.getAuthHeaders()
+    });
   }
 
-  // 🔹 Nuevo método para obtener todos los motores de un pozo
-getMotoresPorPozo(pozoId: number): Observable<Motor[]> {
-  return this.http.get<Motor[]>(`${this.baseUrl}pozo/${pozoId}`);
-}
-
-
+  getMotoresPorPozo(pozoId: number): Observable<Motor[]> {
+    return this.http.get<Motor[]>(`${this.baseUrl}pozo/${pozoId}`, {
+      headers: this.getAuthHeaders()
+    });
+  }
 }

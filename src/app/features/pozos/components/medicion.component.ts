@@ -16,7 +16,7 @@ export class MedicionComponent implements OnInit {
   mediciones: Medicion[] = [];
   unidades: Unidad[] = [];
   medicion: Medicion = this.crearMedicionVacia();
-
+  mostrarFormulario = false;
   constructor(private medicionService: MedicionService) {}
 
   ngOnInit(): void {
@@ -74,8 +74,9 @@ export class MedicionComponent implements OnInit {
   }
 
   editarMedicion(m: Medicion): void {
-    this.medicion = { ...m };
-  }
+  this.medicion = { ...m };
+  this.mostrarFormulario = true; // Mostrar formulario cuando se edita
+}
 
   cancelarEdicion(): void {
     this.medicion = this.crearMedicionVacia();

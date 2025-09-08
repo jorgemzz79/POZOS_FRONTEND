@@ -1,4 +1,8 @@
-<div class="card p-3 border shadow-sm">
+<button class="btn btn-outline-primary mb-3" (click)="mostrarFormulario = !mostrarFormulario">
+  {{ mostrarFormulario ? 'Ocultar formulario' : 'Subir nuevo archivo' }}
+</button>
+
+<div *ngIf="mostrarFormulario" class="card p-3 border shadow-sm">
   <h5 class="mb-3">Subir nuevo archivo</h5>
 
   <div class="mb-3">

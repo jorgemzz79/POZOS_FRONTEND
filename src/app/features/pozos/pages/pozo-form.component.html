@@ -1,77 +1,126 @@
+<!-- Asegúrate de tener Bootstrap y Bootstrap Icons en tu index.html -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+
 <div class="container mt-4">
-  <h2 class="text-primary">{{ editando ? 'Editar Pozo' : 'Nuevo Pozo' }}</h2>
+  <div class="card shadow p-4">
+    <h2 class="text-center text-primary fw-bold mb-4">{{ editando ? 'Editar Pozo' : 'Nuevo Pozo' }}</h2>
 
-  <form [formGroup]="form" (ngSubmit)="guardar()">
-    <div class="row">
-      <div class="col-md-6 mb-3">
-        <label>Nombre</label>
-        <input class="form-control" formControlName="nombre_pozo" required>
+    <form [formGroup]="form" (ngSubmit)="guardar()">
+
+      <div class="accordion" id="pozoAccordion">
+
+        <!-- Panel 1: Información general -->
+        <div class="accordion-item">
+          <h2 class="accordion-header">
+            <button class="accordion-button fw-bold collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#infoGeneral">
+              <i class="bi bi-info-circle-fill me-2 text-primary"></i>Información general del pozo
+            </button>
+          </h2>
+          <div id="infoGeneral" class="accordion-collapse collapse" data-bs-parent="#pozoAccordion">
+            <div class="accordion-body row">
+              <div class="col-md-6 mb-3">
+                <label class="fw-bold">Nombre</label>
+                <input class="form-control" formControlName="nombre_pozo" required>
+              </div>
+              <div class="col-md-6 mb-3">
+                <label class="fw-bold">Comunidad</label>
+                <input class="form-control" formControlName="comunidad">
+              </div>
+              <div class="col-md-6 mb-3">
+                <label class="fw-bold">Domicilio</label>
+                <input class="form-control" formControlName="domicilio">
+              </div>
+              <div class="col-md-6 mb-3">
+                <label class="fw-bold">Fecha perforación</label>
+                <input type="date" class="form-control" formControlName="fecha_perforacion">
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Panel 2: Geolocalización -->
+        <div class="accordion-item">
+          <h2 class="accordion-header">
+            <button class="accordion-button fw-bold collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#geolocalizacion">
+              <i class="bi bi-geo-alt-fill me-2 text-success"></i>Geolocalización
+            </button>
+          </h2>
+          <div id="geolocalizacion" class="accordion-collapse collapse" data-bs-parent="#pozoAccordion">
+            <div class="accordion-body row">
+              <div class="col-md-6 mb-3">
+                <label class="fw-bold">Latitud</label>
+                <input type="number" class="form-control" formControlName="latitud">
+              </div>
+              <div class="col-md-6 mb-3">
+                <label class="fw-bold">Longitud</label>
+                <input type="number" class="form-control" formControlName="longitud">
+              </div>
+              <div class="col-md-6 mb-3">
+                <label class="fw-bold">Altitud (m)</label>
+                <input type="number" class="form-control" formControlName="altitud">
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Panel 3: Características físicas -->  
+        <div class="accordion-item">
+          <h2 class="accordion-header">
+            <button class="accordion-button fw-bold collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#caracteristicasFisicas">
+              <i class="bi bi-droplet-half me-2 text-warning"></i>Características físicas
+            </button>
+          </h2>
+          <div id="caracteristicasFisicas" class="accordion-collapse collapse" data-bs-parent="#pozoAccordion">
+            <div class="accordion-body row">
+              <div class="col-md-6 mb-3">
+                <label class="fw-bold">Profundidad (m)</label>
+                <input type="number" class="form-control" formControlName="profundidad">
+              </div>
+              <div class="col-md-6 mb-3">
+                <label class="fw-bold">Diámetro del Ademe (Pulgadas)</label>
+                <input type="number" class="form-control" formControlName="diametro_ademe">
+              </div>
+              <div class="col-md-6 mb-3">
+                <label class="fw-bold">Longitud del Ademe Ciego (Metros)</label>
+                <input type="number" class="form-control" formControlName="longitud_ademe_ciego">
+              </div>
+              <div class="col-md-6 mb-3">
+                <label class="fw-bold">Longitud del Ademe Ranurado (Metros)</label>
+                <input type="number" class="form-control" formControlName="longitud_ademe_ranurado">
+              </div>
+              <div class="col-md-6 mb-3">
+                <label class="fw-bold">Descripcion del Tren de descarga (250 Caracteres)</label>
+                <input type="text" class="form-control" formControlName="tren_descarga">
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Panel 4: Información legal -->
+        <div class="accordion-item">
+          <h2 class="accordion-header">
+            <button class="accordion-button fw-bold collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#infoLegal">
+              <i class="bi bi-file-earmark-text-fill me-2 text-secondary"></i>Información legal
+            </button>
+          </h2>
+          <div id="infoLegal" class="accordion-collapse collapse" data-bs-parent="#pozoAccordion">
+            <div class="accordion-body row">
+              <div class="col-md-6 mb-3">
+                <label class="fw-bold">Concesión</label>
+                <input type="text" class="form-control" formControlName="concesion">
+              </div>
+            </div>
+          </div>
+        </div>
+
       </div>
 
-      <div class="col-md-6 mb-3">
-        <label>Comunidad</label>
-        <input class="form-control" formControlName="comunidad">
+      <!-- Botones -->
+      <div class="mt-4 d-flex gap-2">
+        <button class="btn btn-success" type="submit">Guardar</button>
+        <a routerLink="/pozos" class="btn btn-secondary">Cancelar</a>
       </div>
 
-      <div class="col-md-6 mb-3">
-        <label>Domicilio</label>
-        <input class="form-control" formControlName="domicilio">
-      </div>
-
-      <div class="col-md-6 mb-3">
-        <label>Fecha perforación</label>
-        <input type="date" class="form-control" formControlName="fecha_perforacion">
-      </div>
-
-      <div class="col-md-6 mb-3">
-        <label>Profundidad (m)</label>
-        <input type="number" class="form-control" formControlName="profundidad">
-      </div>
-
-
-      <div class="col-md-6 mb-3">
-        <label>Latitud (m)</label>
-        <input type="number" class="form-control" formControlName="latitud">
-      </div>
-      <div class="col-md-6 mb-3">
-        <label>Longitud (m)</label>
-        <input type="number" class="form-control" formControlName="longitud">
-      </div>
-      <div class="col-md-6 mb-3">
-        <label>Altitud (m)</label>
-        <input type="number" class="form-control" formControlName="altitud">
-      </div>
-      
-
-      <div class="col-md-6 mb-3">
-        <label>Diametro del Ademe</label>
-        <input type="number" class="form-control" formControlName="diametro_ademe">
-      </div>
-      <div class="col-md-6 mb-3">
-        <label>Longitud del Ademe Ciego</label>
-        <input type="number" class="form-control" formControlName="longitud_ademe_ciego">
-      </div>
-      <div class="col-md-6 mb-3">
-        <label>Longitud del Ademe Ranurado</label>
-        <input type="number" class="form-control" formControlName="longitud_ademe_ranurado">
-      </div>
-
-      <div class="col-md-6 mb-3">
-        <label>Tren de descarga</label>
-        <input type="text" class="form-control" formControlName="tren_descarga">
-      </div>
-
-      <div class="col-md-6 mb-3">
-        <label>Concesion</label>
-        <input type="text" class="form-control" formControlName="concesion">
-      </div>
-
-      <!-- Agrega más campos si deseas -->
-    </div>
-
-    <div class="mt-3 d-flex gap-2">
-      <button class="btn btn-success" type="submit">Guardar</button>
-      <a routerLink="/pozos" class="btn btn-secondary">Cancelar</a>
-    </div>
-  </form>
+    </form>
+  </div>
 </div>

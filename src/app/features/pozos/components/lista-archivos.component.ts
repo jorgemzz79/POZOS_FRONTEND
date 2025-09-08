@@ -47,7 +47,7 @@ verArchivo(ruta: string): void {
   const partes = ruta.split('/');
   const carpeta = partes[1];
   const archivo = partes[2];
-  const url = `http://127.0.0.1:8000/archivos/ver-archivo/${carpeta}/${archivo}`;
+  const url = `http://172.16.3.115:8000/archivos/ver-archivo/${carpeta}/${archivo}`;
 
   const extension = archivo.split('.').pop()?.toLowerCase();
   const tipo = ['jpg', 'jpeg', 'png', 'gif'].includes(extension || '') ? 'imagen' : 'pdf';

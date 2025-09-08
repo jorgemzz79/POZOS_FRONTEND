@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Unidad } from '../models/unidad.model';
 
@@ -7,19 +7,32 @@ import { Unidad } from '../models/unidad.model';
   providedIn: 'root'
 })
 export class UnidadService {
-  private baseUrl = 'http://127.0.0.1:8000/unidades/';
+  private baseUrl = 'http://172.16.3.115:8000/unidades/';
 
   constructor(private http: HttpClient) {}
 
+  private getAuthHeaders(): HttpHeaders {
+    const token = localStorage.getItem('token');
+    return new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    });
+  }
+
   getUnidades(): Observable<Unidad[]> {
-    return this.http.get<Unidad[]>(this.baseUrl);
+    return this.http.get<Unidad[]>(this.baseUrl, {
+      headers: this.getAuthHeaders()
+    });
   }
 
   getUnidad(id: number): Observable<Unidad> {
-    return this.http.get<Unidad>(`${this.baseUrl}${id}`);
+    return this.http.get<Unidad>(`${this.baseUrl}${id}`, {
+      headers: this.getAuthHeaders()
+    });
   }
 
   crearUnidad(unidad: Unidad): Observable<Unidad> {
-    return this.http.post<Unidad>(this.baseUrl, unidad);
+    return this.http.post<Unidad>(this.baseUrl, unidad, {
+      headers: this.getAuthHeaders()
+    });
   }
 }

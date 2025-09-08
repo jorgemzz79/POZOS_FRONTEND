@@ -19,7 +19,7 @@ export class ArchivoComponent {
   descripcion: string = '';
   mensaje: string = '';
   subiendo: boolean = false;
-
+  mostrarFormulario = false;
   constructor(private archivoService: ArchivoService) {}
 
   onFileChange(event: any): void {

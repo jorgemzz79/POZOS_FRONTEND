@@ -9,27 +9,40 @@ import { ArchivoComponent } from '../components/archivo.component';
 import { ListaArchivosComponent } from '../components/lista-archivos.component';
 import { MedicionComponent } from '../components/medicion.component';
 import { GraficasMedicionComponent } from '../../../features/pozos/components/graficas-medicion.component';
+import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
+
 @Component({
   standalone: true,
   selector: 'app-pozo-detalle',
   templateUrl: './pozo-detalle.component.html',
   styleUrls: ['./pozo-detalle.component.scss'],
-  imports: [CommonModule, RouterModule, MotorComponent, TransformadorComponent, ArchivoComponent,ListaArchivosComponent, MedicionComponent, GraficasMedicionComponent],
+  imports: [
+    CommonModule,
+    RouterModule,
+    MotorComponent,
+    TransformadorComponent,
+    ArchivoComponent,
+    ListaArchivosComponent,
+    MedicionComponent,
+    GraficasMedicionComponent,
+  ],
 })
 export class PozoDetalleComponent implements OnInit {
   pozo!: Pozo;
   cargando = true;
-  mostrarMotor = false;  // o true si quieres que se abra por defecto
+  mostrarMotor = false;
   mostrarTransformador = false;
-  mostrarInfoGeneral = false; // o false si quieres que inicie plegado
+  mostrarInfoGeneral = false;
   mostrarArchivos = false;
   mostrarMediciones = false;
 
+  mapaUrlSegura!: SafeResourceUrl;
 
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private pozoService: PozoService
+    private pozoService: PozoService,
+    private sanitizer: DomSanitizer
   ) {}
 
   ngOnInit(): void {
@@ -38,6 +51,7 @@ export class PozoDetalleComponent implements OnInit {
       this.pozoService.getPozoPorId(id).subscribe({
         next: (data) => {
           this.pozo = data;
+          this.generarMapaUrl();
           this.cargando = false;
         },
         error: () => {
@@ -45,6 +59,13 @@ export class PozoDetalleComponent implements OnInit {
           this.router.navigate(['/pozos']);
         }
       });
+    }
+  }
+
+  generarMapaUrl(): void {
+    if (this.pozo?.latitud && this.pozo?.longitud) {
+      const url = `https://maps.google.com/maps?q=${this.pozo.latitud},${this.pozo.longitud}&z=15&output=embed`;
+      this.mapaUrlSegura = this.sanitizer.bypassSecurityTrustResourceUrl(url);
     }
   }
 
@@ -56,5 +77,4 @@ export class PozoDetalleComponent implements OnInit {
       });
     }
   }
-
 }

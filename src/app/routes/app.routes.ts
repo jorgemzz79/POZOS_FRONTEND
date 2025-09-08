@@ -15,9 +15,11 @@ import { PozoDetalleComponent } from '../features/pozos/pages/pozo-detalle.compo
 import { PozoFormComponent } from '../features/pozos/pages/pozo-form.component';
 import { PozosPageComponent } from '../features/pozos/pages/pozos-page.component';
 import { MotorComponent } from '../features/pozos/components/motor.component';
+import { LoginComponent } from '../pages/login.component';
 
 export const appRoutes: Routes = [
-  { path: '', redirectTo: 'pozos', pathMatch: 'full' },
+  { path: '', redirectTo: 'login', pathMatch: 'full' },
+  { path: 'login', component: LoginComponent },
   { path: 'pozos', component: PozosPageComponent },
   { path: 'pozos/nuevo', component: PozoFormComponent },
   { path: 'pozos/:id', component: PozoDetalleComponent },

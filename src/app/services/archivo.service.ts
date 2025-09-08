@@ -7,7 +7,7 @@ import { Archivo } from '../models/archivo.model';
   providedIn: 'root'
 })
 export class ArchivoService {
-  private baseUrl = 'http://127.0.0.1:8000/archivos/';
+  private baseUrl = 'http://172.16.3.115:8000/archivos/';
   private uploadUrl = this.baseUrl + 'archivos/upload';
 
   constructor(private http: HttpClient) {}
@@ -29,10 +29,10 @@ export class ArchivoService {
     recibo_luz_id?: number;
     modificacion_reparacion_id?: number;
   }): Observable<any> {
-    return this.http.post('http://127.0.0.1:8000/archivos_relaciones/', payload);
+    return this.http.post('http://172.16.3.115:8000/archivos_relaciones/', payload);
   }
 
   obtenerArchivosRelacionados(pozoId: number): Observable<Archivo[]> {
-    return this.http.get<Archivo[]>(`http://127.0.0.1:8000/archivos_relaciones/?pozo_id=${pozoId}`);
+    return this.http.get<Archivo[]>(`http://172.16.3.115:8000/archivos_relaciones/?pozo_id=${pozoId}`);
   }
 }

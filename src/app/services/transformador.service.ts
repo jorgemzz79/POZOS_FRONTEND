@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Transformador } from '../models/transformador.model';
 
@@ -7,32 +7,44 @@ import { Transformador } from '../models/transformador.model';
   providedIn: 'root'
 })
 export class TransformadorService {
-  private baseUrl = 'http://127.0.0.1:8000/transformadores/';
+  private baseUrl = 'http://172.16.3.115:8000/transformadores/';
 
   constructor(private http: HttpClient) {}
 
-  // 🔸 Obtener TODOS los transformadores de un pozo
+  private getAuthHeaders(): HttpHeaders {
+    const token = localStorage.getItem('token');
+    return new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    });
+  }
+
   getTransformadoresPorPozo(pozoId: number): Observable<Transformador[]> {
-    return this.http.get<Transformador[]>(`${this.baseUrl}?pozo_id=${pozoId}`);
+    return this.http.get<Transformador[]>(`${this.baseUrl}pozo/${pozoId}`, {
+      headers: this.getAuthHeaders()
+    });
   }
 
-  // 🔸 Obtener un transformador por ID
   getTransformador(id: number): Observable<Transformador> {
-    return this.http.get<Transformador>(`${this.baseUrl}${id}`);
+    return this.http.get<Transformador>(`${this.baseUrl}${id}`, {
+      headers: this.getAuthHeaders()
+    });
   }
 
-  // 🔸 Crear nuevo transformador
   crearTransformador(data: Transformador): Observable<Transformador> {
-    return this.http.post<Transformador>(this.baseUrl, data);
+    return this.http.post<Transformador>(this.baseUrl, data, {
+      headers: this.getAuthHeaders()
+    });
   }
 
-  // 🔸 Actualizar transformador existente
   actualizarTransformador(id: number, data: Transformador): Observable<Transformador> {
-    return this.http.put<Transformador>(`${this.baseUrl}${id}`, data);
+    return this.http.put<Transformador>(`${this.baseUrl}${id}`, data, {
+      headers: this.getAuthHeaders()
+    });
   }
 
-  // 🔸 Eliminar transformador
   eliminarTransformador(id: number): Observable<void> {
-    return this.http.delete<void>(`${this.baseUrl}${id}`);
+    return this.http.delete<void>(`${this.baseUrl}${id}`, {
+      headers: this.getAuthHeaders()
+    });
   }
 }

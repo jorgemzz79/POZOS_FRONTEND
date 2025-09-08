@@ -46,40 +46,68 @@
   </div>
 
   <!-- Formulario -->
-  <form *ngIf="editando" (ngSubmit)="guardar()" class="mt-3">
-    <div class="row g-3">
-      <div class="col-md-6">
-        <input type="text" class="form-control" placeholder="Ubicación" [(ngModel)]="formData.ubicacion" name="ubicacion" required>
+ <form *ngIf="editando" (ngSubmit)="guardar()" class="mt-3">
+  <div class="row row-cols-1 row-cols-md-2 g-3">
+    <div class="col">
+      <div class="form-floating">
+        <input type="text" class="form-control" id="ubicacion" placeholder="Ubicación" [(ngModel)]="formData.ubicacion" name="ubicacion" required>
+        <label for="ubicacion">Ubicación</label>
       </div>
-      <div class="col-md-6">
-        <input type="number" class="form-control" placeholder="KVA" [(ngModel)]="formData.kva" name="kva">
+    </div>
+    <div class="col">
+      <div class="form-floating">
+        <input type="number" class="form-control" id="kva" placeholder="KVA" [(ngModel)]="formData.kva" name="kva">
+        <label for="kva">KVA</label>
       </div>
-      <div class="col-md-6">
-        <input type="number" class="form-control" placeholder="Voltaje primario" [(ngModel)]="formData.voltage_primario" name="voltage_primario">
+    </div>
+    <div class="col">
+      <div class="form-floating">
+        <input type="number" class="form-control" id="voltage_primario" placeholder="Voltaje primario" [(ngModel)]="formData.voltage_primario" name="voltage_primario">
+        <label for="voltage_primario">Voltaje primario</label>
       </div>
-      <div class="col-md-6">
-        <input type="text" class="form-control" placeholder="Voltaje secundario" [(ngModel)]="formData.voltage_secundario" name="voltaje_secundario">
+    </div>
+    <div class="col">
+      <div class="form-floating">
+        <input type="number" class="form-control" id="voltaje_secundario" placeholder="Voltaje secundario" [(ngModel)]="formData.voltage_secundario" name="voltaje_secundario">
+        <label for="voltaje_secundario">Voltaje secundario</label>
       </div>
-      <div class="col-md-6">
-        <input type="text" class="form-control" placeholder="Marca" [(ngModel)]="formData.marca" name="marca">
+    </div>
+    <div class="col">
+      <div class="form-floating">
+        <input type="text" class="form-control" id="marca" placeholder="Marca" [(ngModel)]="formData.marca" name="marca">
+        <label for="marca">Marca</label>
       </div>
-      <div class="col-md-6">
-        <input type="text" class="form-control" placeholder="Serie" [(ngModel)]="formData.serie" name="serie">
+    </div>
+    <div class="col">
+      <div class="form-floating">
+        <input type="text" class="form-control" id="serie" placeholder="Serie" [(ngModel)]="formData.serie" name="serie">
+        <label for="serie">Serie</label>
       </div>
-      <div class="col-md-6">
-        <input type="text" class="form-control" placeholder="Bomba" [(ngModel)]="formData.bomba" name="bomba">
+    </div>
+    <!--
+    <div class="col">
+      <div class="form-floating">
+        <input type="text" class="form-control" id="bomba" placeholder="Bomba" [(ngModel)]="formData.bomba" name="bomba">
+        <label for="bomba">Bomba</label>
       </div>
-      <div class="col-md-6">
-        <input type="text" class="form-control" placeholder="Modelo" [(ngModel)]="formData.modelo" name="modelo">
+    </div>
+    <div class="col">
+      <div class="form-floating">
+        <input type="text" class="form-control" id="modelo" placeholder="Modelo" [(ngModel)]="formData.modelo" name="modelo">
+        <label for="modelo">Modelo</label>
       </div>
-      <div class="col-md-6">
-        <input type="text" class="form-control" placeholder="Serie bomba" [(ngModel)]="formData.serie_bomba" name="serie_bomba">
+    </div>
+    <div class="col">
+      <div class="form-floating">
+        <input type="text" class="form-control" id="serie_bomba" placeholder="Serie bomba" [(ngModel)]="formData.serie_bomba" name="serie_bomba">
+        <label for="serie_bomba">Serie bomba</label>
       </div>
+    </div>
+    -->
     </div>
 
-    <div class="mt-3 d-flex gap-2">
-      <button class="btn btn-primary" type="submit">Guardar</button>
-      <button class="btn btn-secondary" type="button" (click)="cancelar()">Cancelar</button>
-    </div>
-  </form>
-</div>
+  <div class="mt-4 d-flex gap-2 justify-content-end">
+    <button class="btn btn-primary" type="submit">Guardar</button>
+    <button class="btn btn-secondary" type="button" (click)="cancelar()">Cancelar</button>
+  </div>
+</form>

@@ -1,4 +1,8 @@
-<div class="container mt-4">
+<button class="btn btn-outline-primary mb-3" (click)="mostrarFormulario = !mostrarFormulario">
+  {{ mostrarFormulario ? 'Ocultar formulario' : 'Capturar Lectura' }}
+</button>
+
+<div *ngIf="mostrarFormulario" class="container mt-4">
   <h2 class="text-center mb-4">Registro de Mediciones</h2>
 
   <!-- FORMULARIO -->
@@ -41,7 +45,8 @@
     <button *ngIf="medicion.id" type="button" class="btn btn-secondary" (click)="cancelarEdicion()">Cancelar</button>
   </form>
 
-  <!-- LISTADO -->
+  </div>
+
   <!-- LISTADO -->
 <div class="card shadow">
   <div class="card-header bg-secondary text-white">
@@ -66,4 +71,4 @@
   </ul>
 </div>
 
-</div>
+
