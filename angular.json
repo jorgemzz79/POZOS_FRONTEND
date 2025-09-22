@@ -26,10 +26,8 @@
             "tsConfig": "tsconfig.app.json",
             "inlineStyleLanguage": "scss",
             "assets": [
-              {
-                "glob": "**/*",
-                "input": "public"
-              }
+              { "glob": "**/*", "input": "public" },
+              { "glob": "**/*", "input": "node_modules/bootstrap-icons/font/fonts", "output": "assets/bootstrap-icons/fonts" }
             ],
             "styles": [
               "src/styles.scss",
@@ -41,27 +39,25 @@
             ]
           },
           "configurations": {
-            "production": {
-              "budgets": [
-                {
-                  "type": "initial",
-                  "maximumWarning": "500kB",
-                  "maximumError": "1MB"
-                },
-                {
-                  "type": "anyComponentStyle",
-                  "maximumWarning": "4kB",
-                  "maximumError": "8kB"
-                }
-              ],
-              "outputHashing": "all"
-            },
-            "development": {
-              "optimization": false,
-              "extractLicenses": false,
-              "sourceMap": true
-            }
+          "production": {
+            "fileReplacements": [
+              {
+                "replace": "src/environments/environment.ts",
+                "with": "src/environments/environment.prod.ts"
+              }
+            ],
+            "budgets": [
+              { "type": "initial", "maximumWarning": "1.2MB", "maximumError": "2MB" },
+              { "type": "anyComponentStyle", "maximumWarning": "200kB", "maximumError": "400kB" }
+            ],
+            "outputHashing": "all"
           },
+          "development": {
+            "optimization": false,
+            "extractLicenses": false,
+            "sourceMap": true
+          }
+        },
           "defaultConfiguration": "production"
         },
         "serve": {
@@ -89,10 +85,8 @@
             "tsConfig": "tsconfig.spec.json",
             "inlineStyleLanguage": "scss",
             "assets": [
-              {
-                "glob": "**/*",
-                "input": "public"
-              }
+              { "glob": "**/*", "input": "public" },
+              { "glob": "**/*", "input": "node_modules/bootstrap-icons/font/fonts", "output": "assets/bootstrap-icons/fonts" }
             ],
             "styles": [
               "src/styles.scss",
@@ -100,8 +94,7 @@
               "node_modules/bootstrap-icons/font/bootstrap-icons.css"
             ],
             "scripts": [
-              "node_modules/bootstrap/dist/js/bootstrap.bundle.min.js",
-                "node_modules/chart.js/dist/chart.umd.js"
+              "node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"
             ]
           }
         }
@@ -112,3 +105,7 @@
     "analytics": "721701ae-aab2-452e-86c5-d8c0bc27646d"
   }
 }
+
+
+
+  

@@ -2,12 +2,13 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Unidad } from '../models/unidad.model';
+import { environment } from '../../environments/environment.prod';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UnidadService {
-  private baseUrl = 'http://172.16.3.115:8000/unidades/';
+  private baseUrl = `${environment.apiBase}/unidades/`;
 
   constructor(private http: HttpClient) {}
 

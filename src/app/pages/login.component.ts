@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
+import { environment } from '../../environments/environment.prod';
 
 @Component({
   standalone: true,
@@ -31,7 +32,7 @@ intentoLogin = false;
   login(): void {
   this.intentoLogin = true;
   const { username, password } = this.form.value;
-  this.http.post<any>('http://localhost:8000/auth/login', { username, password })
+  this.http.post<any>(`${environment.apiBase}/auth/login`, { username, password })
     .subscribe({
       next: res => {
         this.error = false;

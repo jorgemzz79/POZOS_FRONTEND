@@ -2,12 +2,13 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Pozo } from '../models/pozo.model';
 import { Observable } from 'rxjs';
+import { environment } from '../../environments/environment.prod';
 
 @Injectable({
   providedIn: 'root'
 })
 export class PozoService {
-  private baseUrl = 'http://172.16.3.115:8000/pozos/';
+  private baseUrl = `${environment.apiBase}/pozos/`;
 
   constructor(private http: HttpClient) {}
 

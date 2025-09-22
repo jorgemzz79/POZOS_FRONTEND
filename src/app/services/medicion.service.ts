@@ -3,12 +3,13 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Medicion } from '../models/medicion.model';
 import { Unidad } from '../models/unidad.model';
+import { environment } from '../../environments/environment.prod';
 
 @Injectable({
   providedIn: 'root'
 })
 export class MedicionService {
-  private baseUrl = 'http://172.16.3.115:8000';
+  private baseUrl = `${environment.apiBase}`;
 
   constructor(private http: HttpClient) {}
 

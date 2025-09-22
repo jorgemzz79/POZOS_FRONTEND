@@ -2,12 +2,14 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Motor } from '../models/motor.model';
+import { environment } from '../../environments/environment.prod';
+
 
 @Injectable({
   providedIn: 'root'
 })
 export class MotorService {
-  private baseUrl = 'http://172.16.3.115:8000/motores/';
+  private baseUrl = `${environment.apiBase}/motores/`;
 
   constructor(private http: HttpClient) {}
 

@@ -2,12 +2,13 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Transformador } from '../models/transformador.model';
+import { environment } from '../../environments/environment.prod';
 
 @Injectable({
   providedIn: 'root'
 })
 export class TransformadorService {
-  private baseUrl = 'http://172.16.3.115:8000/transformadores/';
+  private baseUrl =  `${environment.apiBase}/transformadores/`;
 
   constructor(private http: HttpClient) {}
 

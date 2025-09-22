@@ -5,6 +5,7 @@ import { Archivo } from '../../../models/archivo.model';
 import { ArchivoExtPipe } from '../../../pipes/archivo-ext.pipe';
 import { ViewChild } from '@angular/core';
 import { PreviewModalComponent } from '../../../shared/preview-modal/preview-modal.component';
+import { environment } from '../../../../environments/environment.prod';
 
 
 @Component({
@@ -47,7 +48,7 @@ verArchivo(ruta: string): void {
   const partes = ruta.split('/');
   const carpeta = partes[1];
   const archivo = partes[2];
-  const url = `http://172.16.3.115:8000/archivos/ver-archivo/${carpeta}/${archivo}`;
+  const url = `${environment.apiBase}/archivos/ver-archivo/${carpeta}/${archivo}`;
 
   const extension = archivo.split('.').pop()?.toLowerCase();
   const tipo = ['jpg', 'jpeg', 'png', 'gif'].includes(extension || '') ? 'imagen' : 'pdf';
