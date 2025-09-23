@@ -1,8 +1,10 @@
-
+// auth.service.ts
 import { inject, Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 import { Router } from '@angular/router';
+
+type TokenResponse = { access_token: string; token_type: string };
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
@@ -12,10 +14,15 @@ export class AuthService {
   private apiUrl = environment.apiUrl + '/auth';
 
   login(username: string, password: string) {
-    return this.http.post<{ access_token: string }>(`${this.apiUrl}/login`, {
-      username,
-      password,
+    const body = new HttpParams()
+      .set('username', username)
+      .set('password', password);
+
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/x-www-form-urlencoded',
     });
+
+    return this.http.post<TokenResponse>(`${this.apiUrl}/login`, body.toString(), { headers });
   }
 
   guardarToken(token: string) {

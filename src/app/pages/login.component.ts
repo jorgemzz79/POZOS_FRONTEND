@@ -4,6 +4,7 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { Router, RouterModule } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../environments/environment.prod';
+import { HttpHeaders, HttpParams } from '@angular/common/http';
 
 @Component({
   standalone: true,
@@ -32,7 +33,16 @@ intentoLogin = false;
   login(): void {
   this.intentoLogin = true;
   const { username, password } = this.form.value;
-  this.http.post<any>(`${environment.apiBase}/auth/login`, { username, password })
+
+  const body = new HttpParams()
+    .set('username', username)
+    .set('password', password);
+
+  const headers = new HttpHeaders({
+    'Content-Type': 'application/x-www-form-urlencoded',
+  });
+
+  this.http.post<any>(`${environment.apiBase}/auth/login`, body.toString(), { headers })
     .subscribe({
       next: res => {
         this.error = false;

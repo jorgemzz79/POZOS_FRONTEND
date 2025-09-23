@@ -1,3 +1,4 @@
+<!-- lista-archivos.component.html -->
 <div *ngIf="cargando">Cargando archivos...</div>
 
 <div *ngIf="!cargando && archivos.length === 0" class="text-muted">
@@ -24,8 +25,18 @@
         <button class="btn btn-sm btn-outline-primary" (click)="verArchivo(archivo.ruta_archivo)">
           Ver
         </button>
-        <app-preview-modal #modalPreview></app-preview-modal>
 
+    <button
+      class="btn btn-sm btn-outline-danger ms-2"
+      (click)="eliminar(archivo)"
+      [disabled]="archivo._borrando">
+      <span *ngIf="!archivo._borrando">Eliminar</span>
+      <span *ngIf="archivo._borrando">Eliminando…</span>
+    </button>
+
+
+
+        <app-preview-modal #modalPreview></app-preview-modal>
       </td>
     </tr>
   </tbody>

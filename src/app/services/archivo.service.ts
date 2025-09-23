@@ -1,15 +1,18 @@
+// services/archivo.service.ts
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, switchMap } from 'rxjs';
 import { Archivo } from '../models/archivo.model';
+import { ArchivoRelacion } from '../models/archivo-relacion.model';
 import { environment } from '../../environments/environment.prod';
 
-@Injectable({
-  providedIn: 'root'
-})
+import { map } from 'rxjs/operators';
+import { forkJoin } from 'rxjs'; 
+
+@Injectable({ providedIn: 'root' })
 export class ArchivoService {
   private baseUrl = `${environment.apiBase}/archivos/`;
-  private uploadUrl = this.baseUrl + 'archivos/upload';
+  private uploadUrl = this.baseUrl + 'archivos/upload'; // verifica esta ruta en tu API
 
   constructor(private http: HttpClient) {}
 
@@ -33,7 +36,51 @@ export class ArchivoService {
     return this.http.post(`${environment.apiBase}/archivos_relaciones/`, payload);
   }
 
-  obtenerArchivosRelacionados(pozoId: number): Observable<Archivo[]> {
-    return this.http.get<Archivo[]>(`${environment.apiBase}/archivos_relaciones/?pozo_id=${pozoId}`);
-  }
+  // services/archivo.service.ts
+
+
+obtenerArchivosRelacionados(pozoId: number) {
+  return this.http
+    .get<any[]>(`${environment.apiBase}/archivos_relaciones/?pozo_id=${pozoId}`)
+    .pipe(
+      map(rows =>
+        rows.map(r => ({
+          // IDs claves: backend ya envía ambos
+          relacion_id: r.relacion_id, // id de la relación
+          archivo_id:  r.id,          // id del archivo (según tu respuesta)
+
+          // campos para la tabla
+          nombre_archivo: r.nombre_archivo,
+          tipo_archivo:   r.tipo_archivo,
+          ruta_archivo:   r.ruta_archivo,
+          categoria:      r.categoria,
+          descripcion:    r.descripcion,
+          fecha_subida:   r.fecha_subida,
+
+          _borrando: false
+        }) as ArchivoRelacion)
+      )
+    );
+}
+
+
+
+  // --- ELIMINAR ---
+
+// archivo.service.ts
+
+eliminarRelacion(relacionId: number) {
+  return this.http.delete<void>(`${environment.apiBase}/archivos_relaciones/${relacionId}`);
+}
+
+eliminarArchivo(archivoId: number) {
+  return this.http.delete<void>(`${environment.apiBase}/archivos/${archivoId}`);
+}
+
+eliminarRelacionYArchivo(relacionId: number, archivoId: number) {
+  return this.eliminarRelacion(relacionId).pipe(
+    switchMap(() => this.eliminarArchivo(archivoId))
+  );
+}
+
 }
