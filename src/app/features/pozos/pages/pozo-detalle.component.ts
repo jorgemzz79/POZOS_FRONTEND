@@ -8,6 +8,7 @@ import { TransformadorComponent } from '../components/transformador.component';
 import { ArchivoComponent } from '../components/archivo.component';
 import { ListaArchivosComponent } from '../components/lista-archivos.component';
 import { MedicionComponent } from '../components/medicion.component';
+import { ModificacionReparacionComponent } from '../components/modificacion-reparacion.component';
 import { GraficasMedicionComponent } from '../../../features/pozos/components/graficas-medicion.component';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 
@@ -24,6 +25,7 @@ import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
     ArchivoComponent,
     ListaArchivosComponent,
     MedicionComponent,
+    ModificacionReparacionComponent,
     GraficasMedicionComponent,
   ],
 })
@@ -35,6 +37,7 @@ export class PozoDetalleComponent implements OnInit {
   mostrarInfoGeneral = false;
   mostrarArchivos = false;
   mostrarMediciones = false;
+  mostrarModificaciones = false;
 
   mapaUrlSegura!: SafeResourceUrl;
 

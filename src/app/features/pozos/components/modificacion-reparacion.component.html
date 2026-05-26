@@ -1,0 +1,109 @@
+<div class="mt-4">
+  <h5 class="text-primary">Modificaciones y reparaciones</h5>
+
+  <div *ngIf="mensajeError" class="alert alert-danger py-2">
+    {{ mensajeError }}
+  </div>
+
+  <div *ngIf="cargando" class="text-muted">
+    Cargando modificaciones y reparaciones...
+  </div>
+
+  <div *ngIf="!editando && !cargando">
+    <div class="table-responsive" *ngIf="modificaciones.length > 0">
+      <table class="table table-bordered table-striped table-hover align-middle">
+        <thead class="table-primary">
+          <tr>
+            <th>Tipo</th>
+            <th>Descripción</th>
+            <th>Fecha</th>
+            <th>Responsable</th>
+            <th>Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let modificacion of modificaciones">
+            <td>{{ modificacion.tipo_modificacion }}</td>
+            <td>{{ modificacion.descripcion_modificacion_reparacion }}</td>
+            <td>{{ modificacion.fecha | date:'dd/MM/yyyy' }}</td>
+            <td>{{ modificacion.responsable }}</td>
+            <td class="acciones">
+              <button class="btn btn-warning btn-sm" type="button" (click)="editar(modificacion)">Editar</button>
+              <button class="btn btn-danger btn-sm" type="button" (click)="eliminar(modificacion)">Eliminar</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p *ngIf="modificaciones.length === 0" class="text-muted">
+      No hay modificaciones o reparaciones registradas.
+    </p>
+
+    <button class="btn btn-success" type="button" (click)="crear()">Agregar modificación o reparación</button>
+  </div>
+
+  <form *ngIf="editando" (ngSubmit)="guardar()" class="mt-3">
+    <div class="row row-cols-1 row-cols-md-2 g-3">
+      <div class="col">
+        <div class="form-floating">
+          <input
+            type="text"
+            class="form-control"
+            id="tipo_modificacion"
+            placeholder="Tipo"
+            [(ngModel)]="formData.tipo_modificacion"
+            name="tipo_modificacion"
+            required>
+          <label for="tipo_modificacion">Tipo</label>
+        </div>
+      </div>
+
+      <div class="col">
+        <div class="form-floating">
+          <input
+            type="date"
+            class="form-control"
+            id="fecha_modificacion"
+            placeholder="Fecha"
+            [(ngModel)]="formData.fecha"
+            name="fecha"
+            required>
+          <label for="fecha_modificacion">Fecha</label>
+        </div>
+      </div>
+
+      <div class="col">
+        <div class="form-floating">
+          <input
+            type="text"
+            class="form-control"
+            id="responsable"
+            placeholder="Responsable"
+            [(ngModel)]="formData.responsable"
+            name="responsable">
+          <label for="responsable">Responsable</label>
+        </div>
+      </div>
+
+      <div class="col-12">
+        <div class="form-floating">
+          <textarea
+            class="form-control"
+            id="descripcion_modificacion_reparacion"
+            placeholder="Descripción"
+            [(ngModel)]="formData.descripcion_modificacion_reparacion"
+            name="descripcion_modificacion_reparacion"
+            style="height: 120px;"
+            required></textarea>
+          <label for="descripcion_modificacion_reparacion">Descripción</label>
+        </div>
+      </div>
+    </div>
+
+    <div class="mt-4 d-flex gap-2 justify-content-end">
+      <button class="btn btn-primary" type="submit">Guardar</button>
+      <button class="btn btn-secondary" type="button" (click)="cancelar()">Cancelar</button>
+    </div>
+  </form>
+</div>

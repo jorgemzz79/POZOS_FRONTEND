@@ -1,0 +1,7 @@
+.acciones {
+  white-space: nowrap;
+
+  .btn + .btn {
+    margin-left: 0.5rem;
+  }
+}
